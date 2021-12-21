@@ -5,19 +5,28 @@ import GoogleIcon from "@mui/icons-material/Google";
 import "./signup.css";
 import app_config from "../config";
 import Swal from "sweetalert2";
+import { useState } from "react";
 
-const Login = () => {
+const AddPodcast = () => {
   const url = app_config.api_url;
+
+  const [currentUser, setCurrentUser] = useState(
+    JSON.parse(sessionStorage.getItem("user"))
+  );
 
   // Two important thing to use with Formik
   // 1. formObject
-  const loginForm = {
-    email: "",
-    password: "",
+  const podcastForm = {
+    title: "",
+    tags: "",
+    description: "",
+    thumbnail: "",
+    file: "",
+    author: currentUser._id,
   };
 
   // 2. submit callback function
-  const LoginSubmit = (formdata) => {
+  const podcastSubmit = (formdata) => {
     console.log(formdata);
 
     // three things are required to request
@@ -33,46 +42,47 @@ const Login = () => {
       },
     };
 
-    fetch(url + "/user/check-login", reqOpt)
+    fetch(url + "/podcast/add", reqOpt)
       .then((res) => {
         console.log(res.status);
-        if (res.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "You have loggdin successfully!",
-          });
-        } else if (res.status === 300) {
-          Swal.fire({
-            icon: "error",
-            title: "Failed",
-            text: "Email or password is incorrect!",
-          });
-        }
         return res.json();
       })
       .then((data) => {
-        sessionStorage.setItem("users", JSON.stringify(data));
         console.log(data);
+
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Added Podcast successfully!",
+        });
       });
   };
 
   return (
-    <div className="login-bg">
-      <div className="col-md-3 mx-auto">
-        <Card className="mt-5">
+    <div className="signup-bg">
+      <h1 className="text-center">Signup Here</h1>
+      <hr />
+      <div className="col-md-4 mx-auto">
+        <Card>
           <CardContent>
-            <h1 className="text-center">Signin Here</h1>
-            <hr />
-            <Formik initialValues={loginForm} onSubmit={LoginSubmit}>
+            <Formik initialValues={podcastForm} onSubmit={podcastSubmit}>
               {({ values, handleSubmit, handleChange }) => (
                 <form onSubmit={handleSubmit}>
-                  <label className="mt-3">Email</label>
+                  <label className="mt-3">Title</label>
                   <input
-                    placeholder="email"
+                    placeholder="title"
                     className="form-control"
-                    id="email"
-                    value={values.email}
+                    id="title"
+                    value={values.title}
+                    onChange={handleChange}
+                  />
+
+                  <label className="mt-3">Username</label>
+                  <input
+                    placeholder="username"
+                    className="form-control"
+                    id="username"
+                    value={values.username}
                     onChange={handleChange}
                   />
 
@@ -89,9 +99,10 @@ const Login = () => {
                     type="submit"
                     className="w-100 mt-5"
                     variant="contained"
-                    color="primary"
+                    color="secondary"
+                    startIcon={<GoogleIcon />}
                   >
-                    Login to Continue
+                    Register to Continue
                   </Button>
                 </form>
               )}
@@ -103,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AddPodcast;
