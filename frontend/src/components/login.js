@@ -52,7 +52,7 @@ const Login = () => {
         return res.json();
       })
       .then((data) => {
-        sessionStorage.setItem("users", JSON.stringify(data));
+        sessionStorage.setItem("user", JSON.stringify(data));
         console.log(data);
       });
   };

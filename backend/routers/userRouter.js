@@ -19,7 +19,7 @@ router.post("/add", (req, res) => {
     });
 });
 
-router.post("/backendlogin", (req, res) => {
+router.post("/check-login", (req, res) => {
   console.log(req.body);
   let formdata = req.body;
   // promise method

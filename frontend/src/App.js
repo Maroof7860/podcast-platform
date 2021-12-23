@@ -2,6 +2,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import AddPodcast from "./components/addpodcast";
 import Header from "./components/header";
 import Home from "./components/home";
 import Login from "./components/login";
@@ -29,7 +30,7 @@ function App() {
           <Route element={<Login />} path="/login" />
           <Route element={<Signup />} path="/signup" />
           <Route element={<Signup />} path="/signup" />
-          <Route element={<Signup />} path="/signup" />
+          <Route element={<AddPodcast />} path="/addpodcast" />
 
           {/* Redirecting from / to /home */}
           <Route path="/" element={<Navigate replace to="/home" />} />
